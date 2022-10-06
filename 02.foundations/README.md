@@ -30,14 +30,14 @@ There are three essentials of a web app:
 - Using the `DefaultServeMux` cleans up the code a bit
 - But it is not recommended for production because of security purposes
 
-### 2.3.3.1 `Servemux` features and quirks
+#### 2.3.3.1 `Servemux` features and quirks
 - Longer URLs take precedence
   - You can register patterns in any order
 - Requests URL paths are automatically sanitized
 - Subtree path quirk
   - If you have registered a subtree path like `/foo/`
   - Then any request to `/foo` will be redirected to `/foo/`
-### 2.3.3.2 Host name matching
+#### 2.3.3.2 Host name matching
 - It is possible to include hostnames in URL patterns
 - This is useful when we want to redirect all HTTP requests to a URL
 - Host specific patterns like below are checked first
@@ -49,11 +49,24 @@ mux.HandleFunc("bar.example.org/", barHandler)
 mux.HandleFunc("/baz", bazHandler)
 ```
 
-### 2.3.3.3 `RESTful` Routing
+#### 2.3.3.3 `RESTful` Routing
 There are some advantages and disadvantages of using Go's `servemux`
 
 - Go's `servemux` is pretty lightweight
 - It doesn't support routing based on request method
-- Doesn't support clean URLs with variables in them
+- Doesn't support automatic sanitization (clean URLs with variables in them)
 - Doesn't support RegEx based patterns
 ---
+
+## 2.4. Customizing HTTP Headers
+
+- We can restrict our routes to act on specific HTTP request methods only
+- We can use the `request.Method` type to find out the type of the request
+- Then we can throw a status code with `w.WriteHeader(statusCode)`
+  - We can only call this method once per a response
+  - If not explicitly called, it is called upon first `w.Write()` call with the `200 OK`
+
+- Changing response header map using `w.Header().Set("Allow", "POST")`
+- Changing the response header map after the call to w.WriteHeader() will have no effect on the headers received by user
+- So this should be called before `WriteHeader()`
+
