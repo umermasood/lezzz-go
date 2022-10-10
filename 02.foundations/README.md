@@ -70,3 +70,59 @@ There are some advantages and disadvantages of using Go's `servemux`
 - Changing the response header map after the call to w.WriteHeader() will have no effect on the headers received by user
 - So this should be called before `WriteHeader()`
 
+### 2.4.1 Additional Information
+- Go automatically sets 3 system generated headers for you
+- Content type is usually automatically detected by content sniffing the response body
+- Gotcha: Cannot distinguish JSON from plain text
+- We have methods like `Set(), Add(), Del(), Get(), Values()` for manipulating response headers in the response header map
+- When we use the methods mentioned above, the header's value will always be canonicalized (case-insensitive)
+- We can also avoid this canonicalization behavior by manipulating the header map directly
+- We cannot `Del()` the system-generated headers, but they can be suppressed by modifying the underlying map
+  - Just set the `w.Header()["Date"] = nil`
+
+## 2.5. URL Query Strings
+- We can access query string params from the URL
+- Use `r.URL.Query().Get("id")` where `id` is the query param
+
+## 2.6. Project Structure and Organization
+```
+snippetbox/
+├── cmd
+│   └── web
+│       ├── handlers.go
+│       └── main.go
+├── go.mod
+├── internal
+├── README.md
+└── ui
+    ├── html
+    └── static
+
+6 directories, 4 files
+```
+
+Peter Bourgon's popular project structure https://peter.bourgon.org/go-best-practices-2016/#repository-structure
+
+## 2.7. HTML Templating & Inheritance
+- Handler functions can parse and render the HTML templates
+- We can use the `html/template` package which provides functions related to templating
+- We can use the `template.Parsetemplates`
+
+### 2.7.1 Composing Template
+- There is some shared boilerplate that we may want to include on every page
+- To avoid redundancy / duplication, we use templates
+
+### 2.7.2 Embedding Partials
+- Partials are certain bits of HTML which you take out and reuse in different pages and layouts
+- An example is a navbar, which is reused across all pages of the web app
+
+### 2.7.3 Additional Information
+>**The Block Action**
+> 
+> `{{block}}...{{end}}`
+> The `block` action allows you to specify some default content if the template being invoked doesn't exist in the
+> template set. This default content can be overridden by individual pages as per need
+> If we don't include any content in a block action, then the template acts like it's an optional template
+
+### 2.7.4 Embedding Files
+
