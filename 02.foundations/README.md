@@ -125,4 +125,27 @@ Peter Bourgon's popular project structure https://peter.bourgon.org/go-best-prac
 > If we don't include any content in a block action, then the template acts like it's an optional template
 
 ### 2.7.4 Embedding Files
+- The `embed` package allows you to embed files in your Go programs rather than reading them from the disk
 
+
+## 2.8. Serving Static Files
+- Go comes with a built-in `http.FileServer()` which allows you to serve your static files
+- We can use `http.StripPrefix()` to strip a certain prefix from the URL path before sending the request to the handler
+
+### 2.8.1. Additional Information
+- Go's file server sanitizes request paths before searching for a static file
+- This removes any `.` and `..` elements from the path which prevents directory traversal attacks
+- Range requests are fully supported (resume-able downloads supported)
+- File modification headers are transparently supported and throw a status code like 304 if a file isn't modified
+after last request
+- Prevents latency and processing overhead for both client and servers
+- To serve a single file, we can use `http.ServeFile()`, but there's a caveat, it doesn't sanitize request URL path
+- So clean it using `filepath.Clean()`
+- We can also disable directory listings by adding a blank `index.html` in the directory that was being listed
+- But adding this blank `index.html` is not a good solution
+- A better solution is to create a custom implementation of the `http.FileSystem` and have it return `os.ErrNotExist`
+for any directories
+- Methods for disabling directory listings:
+  - i. index.html method
+  - ii. middleware method (checks for trailing `/` in request URL & throws 404)
+  - iii. custom fileSystem
