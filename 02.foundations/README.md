@@ -149,3 +149,21 @@ for any directories
   - i. index.html method
   - ii. middleware method (checks for trailing `/` in request URL & throws 404)
   - iii. custom fileSystem
+
+## 2.9. The http.Handler interface
+- Any object which defines a method with the following signature `ServeHTTP(http.ResponseWriter, *http.Request)`
+implements the `http.Handler` interface and is considered an http handler
+
+### 2.9.1. Chaining Handlers
+- Chaining handlers together is a very common idiom in Go
+- `Servemux` is a special kind of handler which instead of handling the response itself passes the request to the second
+handler
+- This is what happens when the server receives a new request:
+  - i. Server receives a new HTTP request
+  - ii. It calls `servemux`'s `ServeHTTP` method
+  - iii. This looks up the relevant handler based on the request URL's path and calls that handler's ServeHTTP method
+  
+Think of Go web application as a chain of ServeHTTP() methods chained together being called one after another
+
+### 2.9.2. Requests are handled concurrently
+- All incoming HTTP requests are handled in their own goroutine
