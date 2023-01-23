@@ -75,7 +75,7 @@ There are some advantages and disadvantages of using Go's `servemux`
 - Content type is usually automatically detected by content sniffing the response body
 - Gotcha: Cannot distinguish JSON from plain text
 - We have methods like `Set(), Add(), Del(), Get(), Values()` for manipulating response headers in the response header map
-- When we use the methods mentioned above, the header's value will always be canonicalized (case-insensitive)
+- When we use the methods mentioned above, the header's name will always be canonicalized (case-insensitive)
 - We can also avoid this canonicalization behavior by manipulating the header map directly
 - We cannot `Del()` the system-generated headers, but they can be suppressed by modifying the underlying map
   - Just set the `w.Header()["Date"] = nil`
