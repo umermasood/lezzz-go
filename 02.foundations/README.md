@@ -106,7 +106,7 @@ Peter Bourgon's popular project structure https://peter.bourgon.org/go-best-prac
 ## 2.7. HTML Templating & Inheritance
 - Handler functions can parse and render the HTML templates
 - We can use the `html/template` package which provides functions related to templating
-- We can use the `template.Parsetemplates`
+- We can use the `template.ParseFiles`
 
 ### 2.7.1 Composing Template
 - There is some shared boilerplate that we may want to include on every page
