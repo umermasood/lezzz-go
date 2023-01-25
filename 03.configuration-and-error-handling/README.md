@@ -78,6 +78,23 @@ Theres plenty ways to do this: https://www.alexedwards.net/blog/organising-datab
 - Easy solution is to just make the dependency global
 - Good practice is to inject the dependency into handlers (makes code more explicit / less error prone / easier to unit test)
 
+### What do you consider a best practice in Go to access database dependency in http Handlers?
+
+The right answer depends on the type and other factors like:
+- structure and size of the project
+- testing approach
+- how is it likely to grow in the future?
+
+4 different methods for structuring access to the database connection pool:
+1. Using a global variable
+	- 1b. Global variable with initDB function
+2. Dependency Injection
+	- 2b. Dependency Injection via a closure
+3. Wrapping the connection pool
+4. Request Context
+
+
+
 Closures for Dependency Injection / The Closure Pattern
 - If handlers are spread across multiple packages, then we should use the Closure Pattern
 - Create a config package which exports the Application struct
