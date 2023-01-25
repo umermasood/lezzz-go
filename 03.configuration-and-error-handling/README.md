@@ -41,13 +41,13 @@ flag.Parse()
 
 We can break our logs in two types / levels
 
-i. Informational logs ("starting the server on :4000")
-ii. Error logs (log.Fatal(err))
+1. Informational logs ("starting the server on :4000")
+2. Error logs (log.Fatal(err))
 
 We're gonna add leveled logging capability:
 
-i. Prefix informational logs with "INFO" and output them to `stdout`
-ii. Prefix error logs with "ERROR" and output them to `stderr` along with file name and line number to help with debugging
+1. Prefix informational logs with "INFO" and output them to `stdout`
+2. Prefix error logs with "ERROR" and output them to `stderr` along with file name and line number to help with debugging
 
 
 Decoupled Logging
