@@ -40,15 +40,18 @@ flag.Parse()
 ## 3.2. Levelled Logging
 
 We can break our logs in two types / levels
+
 i. Informational logs ("starting the server on :4000")
 ii. Error logs (log.Fatal(err))
 
 We're gonna add leveled logging capability:
+
 i. Prefix informational logs with "INFO" and output them to `stdout`
 ii. Prefix error logs with "ERROR" and output them to `stderr` along with file name and line number to help with debugging
 
 
 Decoupled Logging
+
 - Separation of concerns - application isn't concerned with routing or storage of logs
 - makes logging easy, depending on environment (i.e. dev, test, prod)
 - gives the benefit to redirect our log streams to a desired final destiantion like a logging service like splunk or maybe disk files
